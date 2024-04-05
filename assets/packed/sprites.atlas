@@ -1,0 +1,13 @@
+
+sprites.png
+size: 256, 256
+format: RGBA8888
+filter: Linear, Linear
+repeat: none
+card
+  rotate: false
+  xy: 1, 1
+  size: 169, 240
+  orig: 169, 240
+  offset: 0, 0
+  index: -1
