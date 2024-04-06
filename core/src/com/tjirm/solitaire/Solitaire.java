@@ -27,7 +27,7 @@ public class Solitaire extends Game {
 	
 	public void updateScreenSize(float newSize) {
 		if(!Gdx.graphics.setWindowedMode(options.getScreenWidth(), options.getScreenHeight()))
-			Gdx.app.log(getClass().getSimpleName(), "couldn't resize Window");
+			Gdx.app.error(getClass().getSimpleName(), "couldn't resize Window");
 	}
 	
 	private Optional<Options> readOptions() {
@@ -37,12 +37,12 @@ public class Solitaire extends Game {
 			options = json.fromJson(Options.class, Gdx.files.local("data/options.yaml"));
 		} catch(SerializationException e) {
 			Throwable cause = e.getCause();
-			if(cause.getMessage().startsWith("Error parsing file") || cause instanceof NullPointerException)
-				Gdx.app.log("initialization", "error parsing Options json reverting to default");
+			if(cause.getMessage().startsWith("Error parsing file") || cause.getCause() == null)
+				Gdx.app.error("initialization", "error parsing Options json reverting to default");
 			else if(cause.getCause().getMessage().startsWith("File not found"))
-				Gdx.app.log("initialization", "couldn't find Options file reverting to default");
+				Gdx.app.error("initialization", "couldn't find Options file reverting to default");
 			else
-				Gdx.app.log("initialization", "unexpected error reading Options reverting to default");
+				Gdx.app.error("initialization", "unexpected error reading Options reverting to default");
 		}
 		return Optional.ofNullable(options);
 	}
