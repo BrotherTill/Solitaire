@@ -1,4 +1,4 @@
-package com.tjirm.solitare;
+package com.tjirm.solitaire;
 
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
@@ -10,7 +10,7 @@ public class DesktopLauncher {
 		config.setForegroundFPS(60);
 		config.setWindowedMode(800,600);
 		config.setResizable(false);
-		config.setTitle("Solitare");
-		new Lwjgl3Application(new Solitare(), config);
+		config.setTitle("Solitaire");
+		new Lwjgl3Application(new Solitaire(), config);
 	}
 }

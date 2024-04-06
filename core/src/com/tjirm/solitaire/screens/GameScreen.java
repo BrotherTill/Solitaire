@@ -1,12 +1,9 @@
-package com.tjirm.solitare.screens;
+package com.tjirm.solitaire.screens;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.tjirm.solitare.Solitare;
-import com.tjirm.solitare.cards.Card;
+import com.tjirm.solitaire.cards.Card;
 
 public class GameScreen implements Screen {
     Stage stage;
@@ -27,9 +24,6 @@ public class GameScreen implements Screen {
     @Override
     public void render(float delta) {
         stage.draw();
-        
-        if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE))
-            Solitare.options.setScreenSize(Solitare.options.getScreenSize() + 0.01F);
     }
     
     @Override

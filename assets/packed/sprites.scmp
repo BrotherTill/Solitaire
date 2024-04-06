@@ -3,7 +3,7 @@ atlasData: {
 	atlasCurrent: true
 	drawables: [
 		{
-			file: C:/Users/TJirm/Documents/Programming/solitare/assets/sprites/card.png
+			file: C:/Users/TJirm/Documents/Programming/solitaire/assets/sprites/card.png
 			bgColor: {
 				r: 1
 				g: 1
@@ -1629,7 +1629,7 @@ preferences: {
 		value: 30
 	}
 }
-saveFile: C:/Users/TJirm/Documents/Programming/solitare/assets/packed/sprites.scmp
+saveFile: C:/Users/TJirm/Documents/Programming/solitaire/assets/packed/sprites.scmp
 version: 56
 sceneComposer: null
 }

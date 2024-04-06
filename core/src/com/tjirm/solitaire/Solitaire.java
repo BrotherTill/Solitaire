@@ -1,15 +1,15 @@
-package com.tjirm.solitare;
+package com.tjirm.solitaire;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.SerializationException;
-import com.tjirm.solitare.screens.GameScreen;
+import com.tjirm.solitaire.screens.GameScreen;
 
 import java.util.Optional;
 
-public class Solitare extends Game {
+public class Solitaire extends Game {
 	public static Skin sprites;
 	public static Skin UI;
 	public static Options options;

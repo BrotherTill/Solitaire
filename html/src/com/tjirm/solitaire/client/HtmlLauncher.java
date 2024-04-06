@@ -1,9 +1,9 @@
-package com.tjirm.solitare.client;
+package com.tjirm.solitaire.client;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.gwt.GwtApplication;
 import com.badlogic.gdx.backends.gwt.GwtApplicationConfiguration;
-import com.tjirm.solitare.Solitare;
+import com.tjirm.solitaire.Solitaire;
 
 public class HtmlLauncher extends GwtApplication {
 
@@ -17,6 +17,6 @@ public class HtmlLauncher extends GwtApplication {
 
         @Override
         public ApplicationListener createApplicationListener () {
-                return new Solitare();
+                return new Solitaire();
         }
 }

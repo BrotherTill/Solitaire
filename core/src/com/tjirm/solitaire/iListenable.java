@@ -1,4 +1,4 @@
-package com.tjirm.solitare;
+package com.tjirm.solitaire;
 
 import java.util.function.Consumer;
 

@@ -1,4 +1,4 @@
-package com.tjirm.solitare;
+package com.tjirm.solitaire;
 
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
