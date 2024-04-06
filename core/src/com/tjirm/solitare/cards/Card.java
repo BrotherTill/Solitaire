@@ -10,6 +10,12 @@ public class Card extends Actor {
     
     public Card() {
         texture = Solitare.sprites.getDrawable("card");
+        updateSize(0);
+        Solitare.options.addCardListener(this::updateSize);
+    }
+    
+    public void updateSize(float newSize) {
+        setSize(Solitare.options.getCardWidth(), Solitare.options.getCardHeight());
     }
     
     @Override
