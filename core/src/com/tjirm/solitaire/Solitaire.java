@@ -3,57 +3,32 @@ package com.tjirm.solitaire;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.utils.Json;
-import com.badlogic.gdx.utils.SerializationException;
+import com.tjirm.solitaire.preferences.Preferences;
 import com.tjirm.solitaire.screens.GameScreen;
-
-import java.util.Optional;
 
 public class Solitaire extends Game {
 	public static Skin sprites;
 	public static Skin UI;
-	public static Options options;
+	public static Preferences preferences;
 	
 	@Override
 	public void create () {
 		sprites = new Skin(Gdx.files.internal("packed/sprites.json"));
 		UI = new Skin(Gdx.files.internal("packed/UI.json"));
-		options = readOptions().orElseGet(Options::getDefaultOptions);
+		preferences = Preferences.load();
 		updateScreenSize(0);
-		options.addScreenListener(this::updateScreenSize);
+		preferences.getScreenSize().addListener(this::updateScreenSize);
 		
 		setScreen(new GameScreen());
 	}
 	
 	public void updateScreenSize(float newSize) {
-		if(!Gdx.graphics.setWindowedMode(options.getScreenWidth(), options.getScreenHeight()))
+		if(!Gdx.graphics.setWindowedMode(preferences.getScreenWidth(), preferences.getScreenHeight()))
 			Gdx.app.error(getClass().getSimpleName(), "couldn't resize Window");
-	}
-	
-	private Optional<Options> readOptions() {
-		Options options = null;
-		try {
-			Json json = new Json();
-			options = json.fromJson(Options.class, Gdx.files.local("data/options.yaml"));
-		} catch(SerializationException e) {
-			Throwable cause = e.getCause();
-			if(cause.getMessage().startsWith("Error parsing file") || cause.getCause() == null)
-				Gdx.app.error("initialization", "error parsing Options json reverting to default");
-			else if(cause.getCause().getMessage().startsWith("File not found"))
-				Gdx.app.error("initialization", "couldn't find Options file reverting to default");
-			else
-				Gdx.app.error("initialization", "unexpected error reading Options reverting to default");
-		}
-		return Optional.ofNullable(options);
-	}
-	
-	private void saveOptions() {
-		Json json = new Json();
-		Gdx.files.local("data/options.yaml").writeString(json.prettyPrint(options), false);
 	}
 	
 	@Override
 	public void dispose () {
-		saveOptions();
+		Preferences.save(preferences);
 	}
 }

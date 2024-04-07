@@ -91,7 +91,7 @@ public class CardStack extends CardHolder {
     }
     
     protected Rectangle getBounds() {
-        return new Rectangle(getX(), getY(), Solitaire.options.getCardWidth() + xOffset * cards.size, Solitaire.options.getCardHeight() + yOffset * cards.size);
+        return new Rectangle(getX(), getY(), Solitaire.preferences.getCardWidth() + xOffset * cards.size, Solitaire.preferences.getCardHeight() + yOffset * cards.size);
     }
     protected Rectangle getCardBounds() {
         if(getTopCard().isEmpty())

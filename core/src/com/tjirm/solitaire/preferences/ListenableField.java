@@ -1,4 +1,4 @@
-package com.tjirm.solitaire;
+package com.tjirm.solitaire.preferences;
 
 import java.util.LinkedList;
 import java.util.function.Consumer;

@@ -19,11 +19,11 @@ public class Card extends Actor {
         front = Solitaire.sprites.getDrawable("card_front");
         back = Solitaire.sprites.getDrawable("card_back");
         updateSize(0);
-        Solitaire.options.addCardListener(this::updateSize);
+        Solitaire.preferences.getCardSize().addListener(this::updateSize);
     }
     
     public void updateSize(float newSize) {
-        setSize(Solitaire.options.getCardWidth(), Solitaire.options.getCardHeight());
+        setSize(Solitaire.preferences.getCardWidth(), Solitaire.preferences.getCardHeight());
     }
     
     protected Rectangle getBounds() {

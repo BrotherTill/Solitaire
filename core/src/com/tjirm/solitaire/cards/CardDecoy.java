@@ -44,12 +44,8 @@ public class CardDecoy extends Group {
             cards[i].setPosition(xOffset * i, yOffset * i);
     }
     
-    protected void setOriginCardPosition(float x, float y) {
-        setPosition(x - xOffset * (cards.length - 1), y - yOffset * (cards.length - 1));
-    }
-    
     protected Rectangle getBounds() {
-        return new Rectangle(getX(), getY(), Solitaire.options.getCardWidth() + xOffset * cards.length, Solitaire.options.getCardHeight() + yOffset * cards.length);
+        return new Rectangle(getX(), getY(), Solitaire.preferences.getCardWidth() + xOffset * cards.length, Solitaire.preferences.getCardHeight() + yOffset * cards.length);
     }
     protected Rectangle getCardBounds() {
         return cards[0].getBounds();
