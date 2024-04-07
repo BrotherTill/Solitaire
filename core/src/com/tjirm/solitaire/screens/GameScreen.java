@@ -11,6 +11,10 @@ import com.tjirm.solitaire.cards.Card;
 import com.tjirm.solitaire.cards.CardStack;
 import com.tjirm.solitaire.cards.CardStack.RevealedCards;
 import com.tjirm.solitaire.cards.CardHolderLinker;
+import com.tjirm.solitaire.cards.CardType;
+
+import static com.tjirm.solitaire.cards.CardType.Suit.*;
+import static com.tjirm.solitaire.cards.CardType.CardFace.*;
 
 public class GameScreen implements Screen {
     Stage stage;
@@ -18,19 +22,19 @@ public class GameScreen implements Screen {
     
     public GameScreen() {
         stage = new Stage(new ExtendViewport(800, 600));
+        cardHolders = new CardHolderLinker(stage, true);
+        stage.addActor(cardHolders.linkCardHolder(new CardStack(RevealedCards.all, 0, -30)));
+        cardHolders.getCardHolder(0).setPosition(10, 200);
+        cardHolders.getCardHolder(0).addCard(new Card(new CardType(hearts, n10)));
+        stage.addActor(cardHolders.linkCardHolder(new CardStack(RevealedCards.all, 0, -30)));
+        cardHolders.getCardHolder(1).setPosition(210, 200);
+        cardHolders.getCardHolder(1).addCard(new Card(new CardType(spades, jack)));
+        cardHolders.getCardHolder(1).addCard(new Card(new CardType(spades, n9)));
     }
     
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
-        cardHolders = new CardHolderLinker(stage, true);
-        stage.addActor(cardHolders.linkCardHolder(new CardStack(RevealedCards.top, 0, -30)));
-        cardHolders.getCardHolder(0).setPosition(10, 200);
-        cardHolders.getCardHolder(0).addCard(new Card());
-        stage.addActor(cardHolders.linkCardHolder(new CardStack(RevealedCards.top, 0, -30)));
-        cardHolders.getCardHolder(1).setPosition(210, 200);
-        cardHolders.getCardHolder(1).addCard(new Card());
-        cardHolders.getCardHolder(1).addCard(new Card());
     }
     
     @Override

@@ -9,6 +9,7 @@ public class CardDragger extends DragListener {
     
     private float xOffset;
     private float yOffset;
+    private CardHolder holder;
     
     protected CardDragger(CardHolderLinker linker) {
         this.linker = linker;
@@ -22,6 +23,7 @@ public class CardDragger extends DragListener {
                 
                 xOffset = x;
                 yOffset = y;
+                holder = card.getCardHolder();
                 if(!linker.beginDrag(card))
                     cancel();
                 return;
@@ -37,10 +39,9 @@ public class CardDragger extends DragListener {
     
     @Override
     public void dragStop(InputEvent event, float x, float y, int pointer) {
-        if(!(event.getTarget() instanceof Card card))
+        if(!(event.getTarget() instanceof Card))
             return;
-        if(linker.endDrag())
-            card.getCardHolder().updateCardPositions();
+        linker.endDrag(holder);
     }
     
 }

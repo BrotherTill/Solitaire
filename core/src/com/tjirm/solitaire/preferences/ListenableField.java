@@ -31,4 +31,9 @@ public class ListenableField<V> implements iListenable<V>{
         this.value = value;
         triggerListeners();
     }
+    
+    @Override
+    public String toString() {
+        return "(value=" + value + ')';
+    }
 }

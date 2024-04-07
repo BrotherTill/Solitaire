@@ -30,7 +30,7 @@ public class CardHolderLinker {
         return true;
     }
     
-    protected boolean endDrag() {
+    protected void endDrag(CardHolder originHolder) {
         CardHolder closest = null;
         float leastDistance = Float.MAX_VALUE;
         for(CardHolder cardHolder : cardHolders) {
@@ -40,9 +40,13 @@ public class CardHolderLinker {
             closest = cardHolder;
         }
         if(closest == null || !closest.getCardBounds().overlaps(cardDecoy.getBounds()))
-            return false;
-        closest.addCards(cardDecoy.getCards());
-        return true;
+            originHolder.addCards(cardDecoy.getCards());
+        else if(closest.getTopCard().isEmpty() || closest.getTopCard().get().getCardType().isEmpty())
+            closest.addCards(cardDecoy.getCards());
+        else if(cardDecoy.goesOn(closest.getTopCard().get().getCardType().get()))
+                closest.addCards(cardDecoy.getCards());
+        else
+            originHolder.addCards(cardDecoy.getCards());
     }
     
     private float getDistance(Rectangle first, Rectangle second) {

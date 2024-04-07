@@ -37,12 +37,12 @@ public class CardStack extends CardHolder {
         cards.add(card);
         switch(revealedCards) {
             case all -> card.setRevealed(true);
+            case none -> card.setRevealed(false);
             case top ->  {
                 card.setRevealed(true);
                 if(cards.size > 1)
                     cards.get(cards.size - 2).setRevealed(false);
             }
-            default -> card.setRevealed(false);
         }
     }
     public void addCards(Card[] cards) {

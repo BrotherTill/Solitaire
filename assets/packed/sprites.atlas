@@ -1,20 +1,391 @@
 
 sprites.png
-size: 512, 512
+size: 1024, 1024
 format: RGBA8888
 filter: Linear, Linear
 repeat: none
 card_back
   rotate: false
-  xy: 1, 1
+  xy: 1, 511
   size: 169, 240
   orig: 169, 240
   offset: 0, 0
   index: -1
 card_front
   rotate: false
-  xy: 1, 243
+  xy: 1, 753
   size: 169, 240
   orig: 169, 240
+  offset: 0, 0
+  index: -1
+wii_clubs_ace
+  rotate: false
+  xy: 296, 825
+  size: 60, 83
+  orig: 60, 83
+  offset: 0, 0
+  index: -1
+wii_clubs_jack
+  rotate: false
+  xy: 358, 910
+  size: 60, 83
+  orig: 60, 83
+  offset: 0, 0
+  index: -1
+wii_clubs_king
+  rotate: false
+  xy: 1, 171
+  size: 60, 83
+  orig: 60, 83
+  offset: 0, 0
+  index: -1
+wii_clubs_n10
+  rotate: false
+  xy: 234, 570
+  size: 60, 83
+  orig: 60, 83
+  offset: 0, 0
+  index: -1
+wii_clubs_n2
+  rotate: false
+  xy: 63, 256
+  size: 60, 83
+  orig: 60, 83
+  offset: 0, 0
+  index: -1
+wii_clubs_n3
+  rotate: false
+  xy: 172, 570
+  size: 60, 83
+  orig: 60, 83
+  offset: 0, 0
+  index: -1
+wii_clubs_n4
+  rotate: false
+  xy: 234, 655
+  size: 60, 83
+  orig: 60, 83
+  offset: 0, 0
+  index: -1
+wii_clubs_n5
+  rotate: false
+  xy: 296, 740
+  size: 60, 83
+  orig: 60, 83
+  offset: 0, 0
+  index: -1
+wii_clubs_n6
+  rotate: false
+  xy: 358, 825
+  size: 60, 83
+  orig: 60, 83
+  offset: 0, 0
+  index: -1
+wii_clubs_n7
+  rotate: false
+  xy: 420, 910
+  size: 60, 83
+  orig: 60, 83
+  offset: 0, 0
+  index: -1
+wii_clubs_n8
+  rotate: false
+  xy: 1, 86
+  size: 60, 83
+  orig: 60, 83
+  offset: 0, 0
+  index: -1
+wii_clubs_n9
+  rotate: false
+  xy: 63, 171
+  size: 60, 83
+  orig: 60, 83
+  offset: 0, 0
+  index: -1
+wii_clubs_queen
+  rotate: false
+  xy: 296, 655
+  size: 60, 83
+  orig: 60, 83
+  offset: 0, 0
+  index: -1
+wii_diamonds_ace
+  rotate: false
+  xy: 358, 740
+  size: 60, 83
+  orig: 60, 83
+  offset: 0, 0
+  index: -1
+wii_diamonds_jack
+  rotate: false
+  xy: 420, 825
+  size: 60, 83
+  orig: 60, 83
+  offset: 0, 0
+  index: -1
+wii_diamonds_king
+  rotate: false
+  xy: 482, 910
+  size: 60, 83
+  orig: 60, 83
+  offset: 0, 0
+  index: -1
+wii_diamonds_n10
+  rotate: false
+  xy: 358, 570
+  size: 60, 83
+  orig: 60, 83
+  offset: 0, 0
+  index: -1
+wii_diamonds_n2
+  rotate: false
+  xy: 1, 1
+  size: 60, 83
+  orig: 60, 83
+  offset: 0, 0
+  index: -1
+wii_diamonds_n3
+  rotate: false
+  xy: 63, 86
+  size: 60, 83
+  orig: 60, 83
+  offset: 0, 0
+  index: -1
+wii_diamonds_n4
+  rotate: false
+  xy: 296, 570
+  size: 60, 83
+  orig: 60, 83
+  offset: 0, 0
+  index: -1
+wii_diamonds_n5
+  rotate: false
+  xy: 358, 655
+  size: 60, 83
+  orig: 60, 83
+  offset: 0, 0
+  index: -1
+wii_diamonds_n6
+  rotate: false
+  xy: 420, 740
+  size: 60, 83
+  orig: 60, 83
+  offset: 0, 0
+  index: -1
+wii_diamonds_n7
+  rotate: false
+  xy: 482, 825
+  size: 60, 83
+  orig: 60, 83
+  offset: 0, 0
+  index: -1
+wii_diamonds_n8
+  rotate: false
+  xy: 544, 910
+  size: 60, 83
+  orig: 60, 83
+  offset: 0, 0
+  index: -1
+wii_diamonds_n9
+  rotate: false
+  xy: 63, 1
+  size: 60, 83
+  orig: 60, 83
+  offset: 0, 0
+  index: -1
+wii_diamonds_queen
+  rotate: false
+  xy: 420, 655
+  size: 60, 83
+  orig: 60, 83
+  offset: 0, 0
+  index: -1
+wii_hearts_ace
+  rotate: false
+  xy: 482, 740
+  size: 60, 83
+  orig: 60, 83
+  offset: 0, 0
+  index: -1
+wii_hearts_jack
+  rotate: false
+  xy: 544, 825
+  size: 60, 83
+  orig: 60, 83
+  offset: 0, 0
+  index: -1
+wii_hearts_king
+  rotate: false
+  xy: 606, 910
+  size: 60, 83
+  orig: 60, 83
+  offset: 0, 0
+  index: -1
+wii_hearts_n10
+  rotate: false
+  xy: 668, 825
+  size: 60, 83
+  orig: 60, 83
+  offset: 0, 0
+  index: -1
+wii_hearts_n2
+  rotate: false
+  xy: 420, 570
+  size: 60, 83
+  orig: 60, 83
+  offset: 0, 0
+  index: -1
+wii_hearts_n3
+  rotate: false
+  xy: 482, 655
+  size: 60, 83
+  orig: 60, 83
+  offset: 0, 0
+  index: -1
+wii_hearts_n4
+  rotate: false
+  xy: 544, 740
+  size: 60, 83
+  orig: 60, 83
+  offset: 0, 0
+  index: -1
+wii_hearts_n5
+  rotate: false
+  xy: 606, 825
+  size: 60, 83
+  orig: 60, 83
+  offset: 0, 0
+  index: -1
+wii_hearts_n6
+  rotate: false
+  xy: 668, 910
+  size: 60, 83
+  orig: 60, 83
+  offset: 0, 0
+  index: -1
+wii_hearts_n7
+  rotate: false
+  xy: 482, 570
+  size: 60, 83
+  orig: 60, 83
+  offset: 0, 0
+  index: -1
+wii_hearts_n8
+  rotate: false
+  xy: 544, 655
+  size: 60, 83
+  orig: 60, 83
+  offset: 0, 0
+  index: -1
+wii_hearts_n9
+  rotate: false
+  xy: 606, 740
+  size: 60, 83
+  orig: 60, 83
+  offset: 0, 0
+  index: -1
+wii_hearts_queen
+  rotate: false
+  xy: 730, 910
+  size: 60, 83
+  orig: 60, 83
+  offset: 0, 0
+  index: -1
+wii_spades_ace
+  rotate: false
+  xy: 172, 910
+  size: 60, 83
+  orig: 60, 83
+  offset: 0, 0
+  index: -1
+wii_spades_jack
+  rotate: false
+  xy: 1, 426
+  size: 60, 83
+  orig: 60, 83
+  offset: 0, 0
+  index: -1
+wii_spades_king
+  rotate: false
+  xy: 172, 825
+  size: 60, 83
+  orig: 60, 83
+  offset: 0, 0
+  index: -1
+wii_spades_n10
+  rotate: false
+  xy: 172, 655
+  size: 60, 83
+  orig: 60, 83
+  offset: 0, 0
+  index: -1
+wii_spades_n2
+  rotate: false
+  xy: 234, 910
+  size: 60, 83
+  orig: 60, 83
+  offset: 0, 0
+  index: -1
+wii_spades_n3
+  rotate: false
+  xy: 1, 341
+  size: 60, 83
+  orig: 60, 83
+  offset: 0, 0
+  index: -1
+wii_spades_n4
+  rotate: false
+  xy: 63, 426
+  size: 60, 83
+  orig: 60, 83
+  offset: 0, 0
+  index: -1
+wii_spades_n5
+  rotate: false
+  xy: 172, 740
+  size: 60, 83
+  orig: 60, 83
+  offset: 0, 0
+  index: -1
+wii_spades_n6
+  rotate: false
+  xy: 234, 825
+  size: 60, 83
+  orig: 60, 83
+  offset: 0, 0
+  index: -1
+wii_spades_n7
+  rotate: false
+  xy: 296, 910
+  size: 60, 83
+  orig: 60, 83
+  offset: 0, 0
+  index: -1
+wii_spades_n8
+  rotate: false
+  xy: 1, 256
+  size: 60, 83
+  orig: 60, 83
+  offset: 0, 0
+  index: -1
+wii_spades_n9
+  rotate: false
+  xy: 63, 341
+  size: 60, 83
+  orig: 60, 83
+  offset: 0, 0
+  index: -1
+wii_spades_queen
+  rotate: false
+  xy: 234, 740
+  size: 60, 83
+  orig: 60, 83
+  offset: 0, 0
+  index: -1
+wii_back
+  rotate: false
+  xy: 544, 570
+  size: 60, 83
+  orig: 60, 83
   offset: 0, 0
   index: -1

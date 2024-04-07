@@ -11,15 +11,22 @@ public class Preferences implements Json.Serializable {
     public static final float SCREEN_WIDTH_NORMAL = 800;
     public static final float SCREEN_HEIGHT_NORMAL = 600;
     
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
     private final ListenableField<Float> cardSize = new ListenableField<>();
     private final ListenableField<Float> screenSize = new ListenableField<>();
+    private final ListenableField<String> skin = new ListenableField<>();
     
-    private Preferences() {
-        this(1, 1);
-    }
-    public Preferences(float cardSize, float screenSize) {
+    public Preferences(float cardSize, float screenSize, String skin) {
         this.cardSize.set(cardSize);
         this.screenSize.set(screenSize);
+        this.skin.set(skin);
+    }
+    
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    private Preferences() {
+        this(0, 0, "");
     }
     
     public static Preferences load() {
@@ -40,7 +47,7 @@ public class Preferences implements Json.Serializable {
     }
     
     public static Preferences getDefault() {
-        return new Preferences(1, 1);
+        return new Preferences(1, 1, "wii");
     }
     
     public static void save(Preferences preferences) {
@@ -68,17 +75,22 @@ public class Preferences implements Json.Serializable {
     public ListenableField<Float> getScreenSize() {
         return screenSize;
     }
+    public ListenableField<String> getSkin() {
+        return skin;
+    }
     
     @Override
     public void write(Json json) {
         json.writeValue("cardSize", cardSize.get(), Float.class);
         json.writeValue("screenSize", screenSize.get(), Float.class);
+        json.writeValue("skin", skin.get(), String.class);
     }
     
     @Override
     public void read(Json json, JsonValue jsonData) {
         cardSize.set(jsonData.child().asFloat());
         screenSize.set(jsonData.child().next().asFloat());
+        skin.set(jsonData.child().next().next().asString());
     }
     
     @Override
@@ -86,6 +98,7 @@ public class Preferences implements Json.Serializable {
         return "Preferences{" +
                        "cardSize=" + cardSize +
                        ", screenSize=" + screenSize +
+                       ", skin=" + skin +
                        '}';
     }
 }
