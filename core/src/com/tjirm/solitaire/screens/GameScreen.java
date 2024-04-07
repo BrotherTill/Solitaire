@@ -10,10 +10,11 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.tjirm.solitaire.cards.Card;
 import com.tjirm.solitaire.cards.CardStack;
 import com.tjirm.solitaire.cards.CardStack.RevealedCards;
+import com.tjirm.solitaire.cards.CardHolderLinker;
 
 public class GameScreen implements Screen {
     Stage stage;
-    CardStack cardStack;
+    CardHolderLinker cardHolders;
     
     public GameScreen() {
         stage = new Stage(new ExtendViewport(800, 600));
@@ -21,10 +22,15 @@ public class GameScreen implements Screen {
     
     @Override
     public void show() {
-        cardStack = new CardStack(RevealedCards.top, 0, -30);
-        cardStack.setPosition(10, 200);
-        stage.addActor(cardStack);
-        cardStack.addCard(new Card());
+        Gdx.input.setInputProcessor(stage);
+        cardHolders = new CardHolderLinker(stage, true);
+        stage.addActor(cardHolders.linkCardHolder(new CardStack(RevealedCards.top, 0, -30)));
+        cardHolders.getCardHolder(0).setPosition(10, 200);
+        cardHolders.getCardHolder(0).addCard(new Card());
+        stage.addActor(cardHolders.linkCardHolder(new CardStack(RevealedCards.top, 0, -30)));
+        cardHolders.getCardHolder(1).setPosition(210, 200);
+        cardHolders.getCardHolder(1).addCard(new Card());
+        cardHolders.getCardHolder(1).addCard(new Card());
     }
     
     @Override
@@ -33,9 +39,9 @@ public class GameScreen implements Screen {
         stage.draw();
         
         if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE))
-            cardStack.addCard(new Card());
+            cardHolders.getCardHolder(0).addCard(new Card());
         if(Gdx.input.isKeyJustPressed(Input.Keys.BACKSPACE))
-            cardStack.removeTopCard();
+            cardHolders.getCardHolder(0).removeTopCard();
     }
     
     @Override
@@ -55,7 +61,7 @@ public class GameScreen implements Screen {
     
     @Override
     public void hide() {
-    
+        Gdx.input.setInputProcessor(null);
     }
     
     @Override
