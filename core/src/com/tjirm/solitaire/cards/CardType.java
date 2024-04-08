@@ -1,7 +1,6 @@
 package com.tjirm.solitaire.cards;
 
 import com.tjirm.solitaire.Solitaire;
-import com.tjirm.solitaire.cards.dragndrop.CardTypeTarget;
 
 public class CardType {
     private final Suit suit;
@@ -14,7 +13,28 @@ public class CardType {
         clubs,
         diamonds,
         hearts,
-        spades
+        spades,
+        any;
+        
+        public boolean isOppositeColor(Suit suit) {
+            boolean out = true;
+            switch(this) {
+                case clubs, spades -> out = suit == hearts || suit == diamonds;
+                case hearts, diamonds -> out = suit == clubs || suit == spades;
+            }
+            return out;
+        }
+        public boolean isSameColor(Suit suit) {
+            boolean out = true;
+            switch(this) {
+                case clubs, spades -> out = suit == clubs || suit == spades;
+                case hearts, diamonds -> out = suit == hearts || suit == diamonds;
+            }
+            return out;
+        }
+        public boolean isSame(Suit suit) {
+            return this == any || suit == any || this == suit;
+        }
     }
     
     public enum CardFace {
@@ -30,7 +50,50 @@ public class CardType {
         n10,
         jack,
         queen,
-        king
+        king,
+        any;
+        
+        public CardFace next() {
+            return values()[ordinal() < 12 ? ordinal() + 1 : 0];
+        }
+        public boolean isSame(CardFace cardFace) {
+            return this == any || cardFace == any || this == cardFace;
+        }
+    }
+    
+    public boolean isOppositeColor(CardType cardType) {
+        return getSuit().isOppositeColor(cardType.getSuit());
+    }
+    public boolean isSameColor(CardType cardType) {
+        return getSuit().isSameColor(cardType.getSuit());
+    }
+    public boolean isSameSuit(CardType cardType) {
+        return getSuit().isSame(cardType.getSuit());
+    }
+    
+    public boolean isNextFace(CardType cardType) {
+        if(cardType.getCardFace() == CardFace.any)
+            return true;
+        if(getCardFace() == CardFace.any && cardType.getCardFace() == CardFace.ace)
+            return true;
+        return getCardFace().next() == cardType.getCardFace();
+    }
+    public boolean isPreviousFace(CardType cardType) {
+        if(cardType.getCardFace() == CardFace.any)
+            return true;
+        if(getCardFace() == CardFace.any && cardType.getCardFace() == CardFace.king)
+            return true;
+        return cardType.getCardFace().next() == getCardFace();
+    }
+    public CardFace nextFace() {
+        return getCardFace().next();
+    }
+    public boolean isSmeFace(CardType cardType) {
+        return getCardFace().isSame(cardType.getCardFace());
+    }
+    
+    public CardType() {
+        this(Suit.any, CardFace.any);
     }
     
     public CardType(Suit suit, CardFace cardFace) {
@@ -39,29 +102,10 @@ public class CardType {
     }
     
     public void updateSkin(String newSkin) {
+        if(suit == Suit.any || cardFace == CardFace.any)
+            return;
         cardSkinSetter.setSkin( Solitaire.sprites.getDrawable(newSkin + '_' + suit.name() + '_' + cardFace.name()),
                                 Solitaire.sprites.getDrawable(newSkin + "_back"));
-    }
-    
-    public boolean goesOn(CardType cardType) {
-        switch(suit) {
-            case clubs, spades:
-                if(cardType.suit == Suit.clubs || cardType.suit == Suit.spades)
-                    return false;
-                break;
-            case hearts, diamonds:
-                if(cardType.suit == Suit.hearts || cardType.suit == Suit.diamonds)
-                    return false;
-                break;
-        }
-        return cardType.cardFace.ordinal() == cardFace.ordinal() + 1;
-    }
-    
-    public boolean goesOn(CardTypeTarget target, CardType cardType) {
-        return target.takes(this) && goesOn(cardType);
-    }
-    public boolean goesOn(CardTypeTarget target) {
-        return target.takes(this);
     }
     
     public void linkCard(Card card, CardSkinSetter cardSkinSetter) {

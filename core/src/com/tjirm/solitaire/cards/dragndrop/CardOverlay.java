@@ -57,6 +57,8 @@ public class CardOverlay extends Group {
     
     public void moveCardsToHolder(CardHolder holder) {
         clearActions();
+        if(cardHolder != holder && cardHolder.isRevealOnRemove())
+            cardHolder.revealTopCard();
         Vector2 pos = holder.localToStageCoordinates(new Vector2());
         pos.x += holder.getSize() * holder.getXOffset();
         pos.y += holder.getSize() * holder.getYOffset();
@@ -88,20 +90,9 @@ public class CardOverlay extends Group {
     protected Rectangle getCardBounds() {
         return cards[0].getBounds();
     }
-    public boolean goesOn(CardTypeTarget cardTypeTarget, CardType cardType) {
-        if(cards[0].getCardType().isEmpty())
-            return cardTypeTarget.takes(null);
-        return cards[0].getCardType().get().goesOn(cardTypeTarget, cardType);
-    }
-    public boolean goesOn(CardType cardType) {
-        if(cards[0].getCardType().isEmpty())
-            return true;
-        return cards[0].getCardType().get().goesOn(cardType);
-    }
-    public boolean goesOn(CardTypeTarget cardTypeTarget) {
-        if(cards[0].getCardType().isEmpty())
-            return cardTypeTarget.takes(null);
-        return cards[0].getCardType().get().goesOn(cardTypeTarget);
+    
+    public CardType getCardType() {
+        return cards[0].getCardType();
     }
     
     public Card[] getCards() {

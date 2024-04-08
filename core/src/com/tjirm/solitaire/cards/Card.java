@@ -12,8 +12,6 @@ import com.tjirm.solitaire.Solitaire;
 import com.tjirm.solitaire.cards.dragndrop.CardHolder;
 import com.tjirm.solitaire.preferences.Preferences;
 
-import java.util.Optional;
-
 public class Card extends Actor {
     private Drawable front;
     private Drawable back;
@@ -26,14 +24,13 @@ public class Card extends Actor {
     MoveToAction lagToAction = new MoveToAction();
     
     public Card() {
-        this(null);
+        this(new CardType());
         front = Solitaire.sprites.getDrawable("card_front");
         back = Solitaire.sprites.getDrawable("card_back");
     }
     public Card(CardType cardType) {
         this.cardType = cardType;
-        if(cardType != null)
-            cardType.linkCard(this, this::setSkin);
+        cardType.linkCard(this, this::setSkin);
         updateSize(0);
         Solitaire.preferences.getCardSize().addListener(this::updateSize);
         lagToAction.setDuration(Preferences.LAG_TO_DURATION);
@@ -95,12 +92,16 @@ public class Card extends Actor {
     public void setDraggable(boolean draggable) {
         this.draggable = draggable;
     }
-    public Optional<CardType> getCardType() {
-        return Optional.ofNullable(cardType);
+    public CardType getCardType() {
+        return cardType;
     }
     
     protected void linkHolder(CardHolder cardHolder) {
+        if(holder != null && holder.getLinker().isPresent())
+            removeListener(holder.getLinker().get().getCardDragger());
         holder = cardHolder;
+        if(holder.getLinker().isPresent())
+            addListener(holder.getLinker().get().getCardDragger());
     }
     public CardHolder getCardHolder() {
         return holder;
@@ -108,6 +109,8 @@ public class Card extends Actor {
     protected void unlinkHolder(CardHolder cardHolder) {
         if(holder != cardHolder)
             return;
+        if(holder.getLinker().isPresent())
+            removeListener(holder.getLinker().get().getCardDragger());
         holder = null;
     }
 }

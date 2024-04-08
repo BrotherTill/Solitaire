@@ -8,16 +8,22 @@ import com.tjirm.solitaire.Solitaire;
 import com.tjirm.solitaire.cards.dragndrop.CardHolder;
 import com.tjirm.solitaire.preferences.Preferences;
 
+import java.util.function.BiPredicate;
+
 public class CardDeck extends CardStack {
     private CardHolder target;
+    
+    public static final BiPredicate<CardType, CardType> DEFAULT_TARGET = (a, b) -> false;
     
     public CardDeck(RevealedCards visibleCards) {
         super(visibleCards);
         addListener(emptyListener);
+        setCardAcceptor((a, b) -> false);
     }
     public CardDeck(RevealedCards revealedCards, float xOffset, float yOffset) {
         super(revealedCards, xOffset, yOffset);
         addListener(emptyListener);
+        setCardAcceptor((a, b) -> false);
     }
     
     @Override
@@ -38,6 +44,8 @@ public class CardDeck extends CardStack {
             }
         }
         
+        if(getLinker().isPresent())
+            card.removeListener(getLinker().get().getCardDragger());
         card.addListener(inputListener);
     }
     @Override
@@ -53,7 +61,7 @@ public class CardDeck extends CardStack {
     
     private boolean moving = false;
     
-    private InputListener emptyListener = new InputListener() {
+    private final InputListener emptyListener = new InputListener() {
         @Override
         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
             if(target.getTopCard().isEmpty() || getTopCard().isPresent() || getLinker().isEmpty())
@@ -63,7 +71,6 @@ public class CardDeck extends CardStack {
             moving = true;
             for(int i = 0; i < target.getSize(); i++) {
                 Vector2 pos = target.stageToLocalCoordinates(localToStageCoordinates(new Vector2()));
-                System.out.println(pos);
                 target.getCard(target.getSize() - i - 1).removeListener(getLinker().get().getCardDragger());
                 target.getCard(target.getSize() - i - 1).addAction(
                         Actions.sequence(   Actions.delay(Preferences.FAST_MOVE_TO_DURATION * i),
@@ -78,7 +85,6 @@ public class CardDeck extends CardStack {
             Vector2 targetPos = stageToLocalCoordinates(target.localToStageCoordinates(new Vector2()));
             addAction(Actions.sequence( Actions.delay(Preferences.FAST_MOVE_TO_DURATION * (target.getSize() + 0.5F)),
                                         Actions.run(() -> {
-                                            System.out.println("bad");
                                             getTopCard().get().moveTo(targetPos.x, targetPos.y, Preferences.FAST_MOVE_TO_DURATION);
                                         }),
                                         Actions.delay(Preferences.FAST_MOVE_TO_DURATION),
@@ -93,7 +99,7 @@ public class CardDeck extends CardStack {
         }
     };
     
-    private InputListener inputListener = new InputListener(){
+    private final InputListener inputListener = new InputListener(){
         
         @Override
         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {

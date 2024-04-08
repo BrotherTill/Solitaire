@@ -5,16 +5,16 @@ import com.badlogic.gdx.utils.Array;
 import com.tjirm.solitaire.Solitaire;
 import com.tjirm.solitaire.cards.dragndrop.CardHolder;
 import com.tjirm.solitaire.cards.dragndrop.CardHolderLinker;
-import com.tjirm.solitaire.cards.dragndrop.CardTypeTarget;
 
 import java.util.Optional;
+import java.util.function.BiPredicate;
 
 public class CardStack extends CardHolder {
     private RevealedCards revealedCards;
     private float xOffset;
     private float yOffset;
-    private boolean onlyTop;
-    private final CardTypeTarget cardTypeTarget;
+    private DraggableCards draggableCards;
+    private BiPredicate<CardType, CardType> cardAcceptor;
     
     private final Array<Card> cards = new Array<>(8);
     private CardHolderLinker linker;
@@ -23,37 +23,43 @@ public class CardStack extends CardHolder {
         none,
         all,
         top,
+        onRemove,
         custom
     }
     
-    public CardStack(RevealedCards revealedCards, float xOffset, float yOffset, boolean onlyTop, CardTypeTarget cardTypeTarget) {
+    public enum DraggableCards {
+        none,
+        all,
+        top,
+        revealed,
+        custom
+    }
+    
+    public CardStack(RevealedCards revealedCards, float xOffset, float yOffset, DraggableCards draggableCards, BiPredicate<CardType, CardType> cardAcceptor) {
         this.revealedCards = revealedCards;
         this.xOffset = xOffset;
         this.yOffset = yOffset;
-        this.onlyTop = onlyTop;
-        this.cardTypeTarget = cardTypeTarget;
+        this.draggableCards = draggableCards;
+        this.cardAcceptor = cardAcceptor;
         setWidth(Solitaire.preferences.getCardWidth() + xOffset * cards.size);
         setHeight(Solitaire.preferences.getCardHeight() + yOffset * cards.size);
     }
-    public CardStack(RevealedCards visibleCards, float xOffset, float yOffset, boolean onlyTop) {
-        this(visibleCards, xOffset, yOffset, onlyTop, new CardTypeTarget());
+    public CardStack(RevealedCards visibleCards, float xOffset, float yOffset, DraggableCards draggableCards) {
+        this(visibleCards, xOffset, yOffset, draggableCards, ((a, b) -> true));
     }
-    public CardStack(RevealedCards visibleCards, float xOffset, float yOffset, CardTypeTarget cardTypeTarget) {
-        this(visibleCards, xOffset, yOffset, false, cardTypeTarget);
+    public CardStack(RevealedCards visibleCards, float xOffset, float yOffset, BiPredicate<CardType, CardType> cardAcceptor) {
+        this(visibleCards, xOffset, yOffset, DraggableCards.all, cardAcceptor);
     }
     public CardStack(RevealedCards visibleCards, float xOffset, float yOffset) {
-        this(visibleCards, xOffset, yOffset, false, new CardTypeTarget());
+        this(visibleCards, xOffset, yOffset, DraggableCards.all, ((a, b) -> true));
     }
     public CardStack(RevealedCards visibleCards) {
-        this(visibleCards, 0, 0, false, new CardTypeTarget());
+        this(visibleCards, 0, 0, DraggableCards.all, ((a, b) -> true));
     }
     
     public void addCard(Card card) {
         addActor(card);
         card.linkHolder(this);
-        if(onlyTop && getTopCard().isPresent())
-            getTopCard().get().removeListener(linker.getCardDragger());
-        card.addListener(linker.getCardDragger());
         card.setPosition(xOffset * cards.size, yOffset * cards.size);
         cards.add(card);
         setWidth(Solitaire.preferences.getCardWidth() + xOffset * cards.size);
@@ -67,21 +73,42 @@ public class CardStack extends CardHolder {
                     cards.get(cards.size - 2).setRevealed(false);
             }
         }
+        switch(draggableCards) {
+            case all -> card.setDraggable(true);
+            case none -> card.setDraggable(false);
+            case revealed -> {
+                card.setDraggable(card.isRevealed());
+                if(revealedCards != RevealedCards.top || cards.size <= 1)
+                    break;
+                cards.get(cards.size - 2).setDraggable(false);
+            }
+            case top ->  {
+                card.setDraggable(true);
+                if(cards.size > 1)
+                    cards.get(cards.size - 2).setDraggable(false);
+            }
+        }
     }
     public void addCards(Card[] cards) {
         for(Card card : cards)
             addCard(card);
     }
     
+    @Override
+    public boolean accepts(CardType cardType) {
+        if(cardAcceptor == null)
+            return true;
+        return cardAcceptor.test(getTopCard().orElseGet(Card::new).getCardType(), cardType);
+    }
+    
     public void removeCard(Card card) {
         removeActor(card);
         card.unlinkHolder(this);
-        card.removeListener(linker.getCardDragger());
         if(cards.size > 1) {
             if(revealedCards == RevealedCards.top && isTopCard(card))
-                cards.get(cards.size - 2).setRevealed(true);
-            if(onlyTop)
-                cards.get(cards.size - 2).addListener(linker.getCardDragger());
+                revealTopCard();
+            if(draggableCards == DraggableCards.top && isTopCard(card))
+                cards.get(cards.size - 2).setDraggable(true);
         }
         cards.removeValue(card, true);
     }
@@ -162,6 +189,19 @@ public class CardStack extends CardHolder {
         return cards;
     }
     
+    @Override
+    public boolean isRevealOnRemove() {
+        return revealedCards == RevealedCards.onRemove;
+    }
+    @Override
+    public void revealTopCard() {
+        if(getTopCard().isEmpty())
+            return;
+        getTopCard().get().setRevealed(true);
+        if(draggableCards == DraggableCards.revealed)
+            getTopCard().get().setDraggable(true);
+    }
+    
     public void setXOffset(float xOffset) {
         this.xOffset = xOffset;
         updateCardPositions();
@@ -182,8 +222,10 @@ public class CardStack extends CardHolder {
         return linker != null;
     }
     
-    @Override
-    public CardTypeTarget getCardTypeTarget() {
-        return cardTypeTarget;
+    /**
+     * @param cardAcceptor (topCard, cardInQuestion)
+     */
+    public void setCardAcceptor(BiPredicate<CardType, CardType> cardAcceptor) {
+        this.cardAcceptor = cardAcceptor;
     }
 }

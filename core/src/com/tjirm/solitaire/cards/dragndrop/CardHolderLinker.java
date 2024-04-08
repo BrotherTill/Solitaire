@@ -35,21 +35,14 @@ public class CardHolderLinker {
         CardHolder closest = null;
         float leastDistance = Float.MAX_VALUE;
         for(CardHolder cardHolder : cardHolders) {
-            if(getDistance(cardOverlay.getBounds(), cardHolder.getCardBounds()) >= leastDistance)
+            if(getDistance(cardOverlay.getCardBounds(), cardHolder.getCardBounds()) >= leastDistance)
                 continue;
-            leastDistance = getDistance(cardOverlay.getBounds(), cardHolder.getCardBounds());
+            leastDistance = getDistance(cardOverlay.getCardBounds(), cardHolder.getCardBounds());
             closest = cardHolder;
         }
         if(closest == null || !closest.getCardBounds().overlaps(cardOverlay.getBounds()))
             cardOverlay.moveCardsToHolder(originHolder);
-        else if(closest.getTopCard().isEmpty())
-            cardOverlay.moveCardsToHolder(closest);
-        else if(closest.getTopCard().get().getCardType().isPresent()) {
-            if(cardOverlay.goesOn(closest.getCardTypeTarget(), closest.getTopCard().get().getCardType().get()))
-                cardOverlay.moveCardsToHolder(closest);
-            else
-                cardOverlay.moveCardsToHolder(originHolder);
-        } else if(cardOverlay.goesOn(closest.getCardTypeTarget()))
+        else if(closest.accepts(cardOverlay.getCardType()))
             cardOverlay.moveCardsToHolder(closest);
         else
             cardOverlay.moveCardsToHolder(originHolder);
