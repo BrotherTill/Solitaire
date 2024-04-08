@@ -10,6 +10,8 @@ public class Preferences implements Json.Serializable {
     public static final float CARD_HEIGHT_NORMAL = 240;
     public static final float SCREEN_WIDTH_NORMAL = 800;
     public static final float SCREEN_HEIGHT_NORMAL = 600;
+    public static final float MOVE_TO_DURATION = 0.2F;
+    public static final float LAG_TO_DURATION = 0.1F;
     
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     

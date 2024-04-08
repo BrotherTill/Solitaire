@@ -56,7 +56,7 @@ public class CardType {
         return cardType.cardFace.ordinal() == cardFace.ordinal() + 1;
     }
     
-    protected void linkCard(Card card, CardSkinSetter cardSkinSetter) {
+    public void linkCard(Card card, CardSkinSetter cardSkinSetter) {
         this.card = card;
         this.cardSkinSetter = cardSkinSetter;
         updateSkin(Solitaire.preferences.getSkin().get());

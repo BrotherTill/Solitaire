@@ -1,7 +1,8 @@
-package com.tjirm.solitaire.cards;
+package com.tjirm.solitaire.cards.dragndrop;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Group;
+import com.tjirm.solitaire.cards.Card;
 
 import java.util.Optional;
 
@@ -18,6 +19,8 @@ public abstract class CardHolder extends Group {
     protected abstract Rectangle getCardBounds();
     protected abstract void updateCardPositions();
     protected abstract void setLinker(CardHolderLinker cardStackLinker);
-    protected abstract Optional<CardHolderLinker> getLinker();
-    protected abstract boolean hasLinker();
+    public abstract Optional<CardHolderLinker> getLinker();
+    public abstract boolean hasLinker();
+    public abstract float getXOffset();
+    public abstract float getYOffset();
 }
