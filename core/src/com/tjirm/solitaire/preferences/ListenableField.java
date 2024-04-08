@@ -3,31 +3,31 @@ package com.tjirm.solitaire.preferences;
 import java.util.LinkedList;
 import java.util.function.Consumer;
 
-public class ListenableField<V> implements iListenable<V>{
-    private V value;
-    private final LinkedList<Consumer<V>> listeners = new LinkedList<>();
+public class ListenableField<T> implements iListenable<T>{
+    private T value;
+    private final LinkedList<Consumer<T>> listeners = new LinkedList<>();
     
     @Override
-    public void addListener(Consumer<V> listener) {
+    public void addListener(Consumer<T> listener) {
         listeners.add(listener);
     }
     
     @Override
-    public void removeListener(Consumer<V> listener) {
+    public void removeListener(Consumer<T> listener) {
         listeners.remove(listener);
     }
     
      private void triggerListeners() {
-        for(Consumer<V> listener : listeners) listener.accept(value);
+        for(Consumer<T> listener : listeners) listener.accept(value);
     }
     
     @Override
-    public V get() {
+    public T get() {
         return value;
     }
     
     @Override
-    public void set(V value) {
+    public void set(T value) {
         this.value = value;
         triggerListeners();
     }

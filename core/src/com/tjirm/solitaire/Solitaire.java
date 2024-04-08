@@ -22,7 +22,7 @@ public class Solitaire extends Game {
 		setScreen(new GameScreen());
 	}
 	
-	public void updateScreenSize(float newSize) {
+	public void updateScreenSize(float ignoredNewSize) {
 		if(!Gdx.graphics.setWindowedMode(preferences.getScreenWidth(), preferences.getScreenHeight()))
 			Gdx.app.error(getClass().getSimpleName(), "couldn't resize Window");
 	}

@@ -1,8 +1,9 @@
-package com.tjirm.solitaire.cards;
+package com.tjirm.solitaire.cards.dragndrop;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
+import com.tjirm.solitaire.cards.Card;
 
 public class CardDragger extends DragListener {
     private final CardHolderLinker linker;
@@ -34,7 +35,7 @@ public class CardDragger extends DragListener {
     
     @Override
     public void drag(InputEvent event, float x, float y, int pointer) {
-        linker.getCardDecoy().setPosition(event.getStageX() - xOffset, event.getStageY() - yOffset);
+        linker.getCardOverlay().lagTo(event.getStageX() - xOffset, event.getStageY() - yOffset);
     }
     
     @Override

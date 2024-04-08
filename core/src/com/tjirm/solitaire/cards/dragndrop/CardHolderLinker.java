@@ -1,8 +1,9 @@
-package com.tjirm.solitaire.cards;
+package com.tjirm.solitaire.cards.dragndrop;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.tjirm.solitaire.cards.Card;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.function.Consumer;
 
 public class CardHolderLinker {
     private final LinkedList<CardHolder> cardHolders = new LinkedList<>();
-    private CardDecoy cardDecoy;
+    private CardOverlay cardOverlay;
     private final CardDragger cardDragger;
     
     private final boolean dragNDrop;
@@ -25,8 +26,8 @@ public class CardHolderLinker {
     protected boolean beginDrag(Card origin) {
         if(!dragNDrop)
             return false;
-        cardDecoy = new CardDecoy(origin.getCardHolder(), origin);
-        stage.addActor(cardDecoy);
+        cardOverlay = new CardOverlay(origin.getCardHolder(), origin);
+        stage.addActor(cardOverlay);
         return true;
     }
     
@@ -34,19 +35,19 @@ public class CardHolderLinker {
         CardHolder closest = null;
         float leastDistance = Float.MAX_VALUE;
         for(CardHolder cardHolder : cardHolders) {
-            if(getDistance(cardDecoy.getBounds(), cardHolder.getCardBounds()) >= leastDistance)
+            if(getDistance(cardOverlay.getBounds(), cardHolder.getCardBounds()) >= leastDistance)
                 continue;
-            leastDistance = getDistance(cardDecoy.getBounds(), cardHolder.getCardBounds());
+            leastDistance = getDistance(cardOverlay.getBounds(), cardHolder.getCardBounds());
             closest = cardHolder;
         }
-        if(closest == null || !closest.getCardBounds().overlaps(cardDecoy.getBounds()))
-            originHolder.addCards(cardDecoy.getCards());
+        if(closest == null || !closest.getCardBounds().overlaps(cardOverlay.getBounds()))
+            cardOverlay.moveCardsToHolder(originHolder);
         else if(closest.getTopCard().isEmpty() || closest.getTopCard().get().getCardType().isEmpty())
-            closest.addCards(cardDecoy.getCards());
-        else if(cardDecoy.goesOn(closest.getTopCard().get().getCardType().get()))
-                closest.addCards(cardDecoy.getCards());
+            cardOverlay.moveCardsToHolder(closest);
+        else if(cardOverlay.goesOn(closest.getTopCard().get().getCardType().get()))
+            cardOverlay.moveCardsToHolder(closest);
         else
-            originHolder.addCards(cardDecoy.getCards());
+            cardOverlay.moveCardsToHolder(originHolder);
     }
     
     private float getDistance(Rectangle first, Rectangle second) {
@@ -71,10 +72,10 @@ public class CardHolderLinker {
         return cardHolders;
     }
     
-    protected CardDragger getCardDragger() {
+    public CardDragger getCardDragger() {
         return cardDragger;
     }
-    protected CardDecoy getCardDecoy() {
-        return cardDecoy;
+    protected CardOverlay getCardOverlay() {
+        return cardOverlay;
     }
 }

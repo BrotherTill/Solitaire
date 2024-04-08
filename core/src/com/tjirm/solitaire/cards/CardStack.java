@@ -3,6 +3,8 @@ package com.tjirm.solitaire.cards;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.tjirm.solitaire.Solitaire;
+import com.tjirm.solitaire.cards.dragndrop.CardHolder;
+import com.tjirm.solitaire.cards.dragndrop.CardHolderLinker;
 
 import java.util.Optional;
 
@@ -145,10 +147,10 @@ public class CardStack extends CardHolder {
         this.linker = linker;
         
     }
-    protected Optional<CardHolderLinker> getLinker() {
+    public Optional<CardHolderLinker> getLinker() {
         return Optional.ofNullable(linker);
     }
-    protected boolean hasLinker() {
+    public boolean hasLinker() {
         return linker != null;
     }
 }

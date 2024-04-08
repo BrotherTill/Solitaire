@@ -10,7 +10,7 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.tjirm.solitaire.cards.Card;
 import com.tjirm.solitaire.cards.CardStack;
 import com.tjirm.solitaire.cards.CardStack.RevealedCards;
-import com.tjirm.solitaire.cards.CardHolderLinker;
+import com.tjirm.solitaire.cards.dragndrop.CardHolderLinker;
 import com.tjirm.solitaire.cards.CardType;
 
 import static com.tjirm.solitaire.cards.CardType.Suit.*;
@@ -39,6 +39,7 @@ public class GameScreen implements Screen {
     
     @Override
     public void render(float delta) {
+        stage.act(delta);
         ScreenUtils.clear(Color.WHITE);
         stage.draw();
         
