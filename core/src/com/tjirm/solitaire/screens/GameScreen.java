@@ -8,13 +8,16 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.tjirm.solitaire.cards.Card;
+import com.tjirm.solitaire.cards.CardDeck;
 import com.tjirm.solitaire.cards.CardStack;
 import com.tjirm.solitaire.cards.CardStack.RevealedCards;
-import com.tjirm.solitaire.cards.dragndrop.CardHolderLinker;
 import com.tjirm.solitaire.cards.CardType;
+import com.tjirm.solitaire.cards.dragndrop.CardHolderLinker;
+import com.tjirm.solitaire.cards.dragndrop.CardTypeTarget;
 
-import static com.tjirm.solitaire.cards.CardType.Suit.*;
 import static com.tjirm.solitaire.cards.CardType.CardFace.*;
+import static com.tjirm.solitaire.cards.CardType.Suit.hearts;
+import static com.tjirm.solitaire.cards.CardType.Suit.spades;
 
 public class GameScreen implements Screen {
     Stage stage;
@@ -26,10 +29,17 @@ public class GameScreen implements Screen {
         stage.addActor(cardHolders.linkCardHolder(new CardStack(RevealedCards.all, 0, -30)));
         cardHolders.getCardHolder(0).setPosition(10, 200);
         cardHolders.getCardHolder(0).addCard(new Card(new CardType(hearts, n10)));
-        stage.addActor(cardHolders.linkCardHolder(new CardStack(RevealedCards.all, 0, -30)));
-        cardHolders.getCardHolder(1).setPosition(210, 200);
+        stage.addActor(cardHolders.linkCardHolder(new CardStack(RevealedCards.all, 0, -30, true, new CardTypeTarget(false))));
+        cardHolders.getCardHolder(1).setPosition(110, 200);
         cardHolders.getCardHolder(1).addCard(new Card(new CardType(spades, jack)));
         cardHolders.getCardHolder(1).addCard(new Card(new CardType(spades, n9)));
+        CardDeck cardDeck = new CardDeck(RevealedCards.none);
+        cardDeck.setTarget(cardHolders.getCardHolder(1));
+        stage.addActor(cardHolders.linkCardHolder(cardDeck));
+        cardHolders.getCardHolder(2).setPosition(210, 200);
+        cardHolders.getCardHolder(2).addCard(new Card(new CardType(spades, queen)));
+        cardHolders.getCardHolder(2).addCard(new Card(new CardType(spades, king)));
+        
     }
     
     @Override

@@ -1,6 +1,7 @@
 package com.tjirm.solitaire.cards;
 
 import com.tjirm.solitaire.Solitaire;
+import com.tjirm.solitaire.cards.dragndrop.CardTypeTarget;
 
 public class CardType {
     private final Suit suit;
@@ -47,13 +48,20 @@ public class CardType {
             case clubs, spades:
                 if(cardType.suit == Suit.clubs || cardType.suit == Suit.spades)
                     return false;
-            break;
+                break;
             case hearts, diamonds:
                 if(cardType.suit == Suit.hearts || cardType.suit == Suit.diamonds)
                     return false;
-            break;
+                break;
         }
         return cardType.cardFace.ordinal() == cardFace.ordinal() + 1;
+    }
+    
+    public boolean goesOn(CardTypeTarget target, CardType cardType) {
+        return target.takes(this) && goesOn(cardType);
+    }
+    public boolean goesOn(CardTypeTarget target) {
+        return target.takes(this);
     }
     
     public void linkCard(Card card, CardSkinSetter cardSkinSetter) {

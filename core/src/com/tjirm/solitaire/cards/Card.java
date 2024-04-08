@@ -101,8 +101,6 @@ public class Card extends Actor {
     
     protected void linkHolder(CardHolder cardHolder) {
         holder = cardHolder;
-        if(holder.getLinker().isPresent())
-            addListener(holder.getLinker().get().getCardDragger());
     }
     public CardHolder getCardHolder() {
         return holder;
@@ -110,8 +108,6 @@ public class Card extends Actor {
     protected void unlinkHolder(CardHolder cardHolder) {
         if(holder != cardHolder)
             return;
-        if(holder.getLinker().isPresent())
-            removeListener(holder.getLinker().get().getCardDragger());
         holder = null;
     }
 }

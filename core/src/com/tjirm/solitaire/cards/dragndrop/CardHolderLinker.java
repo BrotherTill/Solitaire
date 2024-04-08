@@ -42,9 +42,14 @@ public class CardHolderLinker {
         }
         if(closest == null || !closest.getCardBounds().overlaps(cardOverlay.getBounds()))
             cardOverlay.moveCardsToHolder(originHolder);
-        else if(closest.getTopCard().isEmpty() || closest.getTopCard().get().getCardType().isEmpty())
+        else if(closest.getTopCard().isEmpty())
             cardOverlay.moveCardsToHolder(closest);
-        else if(cardOverlay.goesOn(closest.getTopCard().get().getCardType().get()))
+        else if(closest.getTopCard().get().getCardType().isPresent()) {
+            if(cardOverlay.goesOn(closest.getCardTypeTarget(), closest.getTopCard().get().getCardType().get()))
+                cardOverlay.moveCardsToHolder(closest);
+            else
+                cardOverlay.moveCardsToHolder(originHolder);
+        } else if(cardOverlay.goesOn(closest.getCardTypeTarget()))
             cardOverlay.moveCardsToHolder(closest);
         else
             cardOverlay.moveCardsToHolder(originHolder);

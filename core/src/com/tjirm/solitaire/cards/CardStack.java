@@ -5,6 +5,7 @@ import com.badlogic.gdx.utils.Array;
 import com.tjirm.solitaire.Solitaire;
 import com.tjirm.solitaire.cards.dragndrop.CardHolder;
 import com.tjirm.solitaire.cards.dragndrop.CardHolderLinker;
+import com.tjirm.solitaire.cards.dragndrop.CardTypeTarget;
 
 import java.util.Optional;
 
@@ -12,6 +13,8 @@ public class CardStack extends CardHolder {
     private RevealedCards revealedCards;
     private float xOffset;
     private float yOffset;
+    private boolean onlyTop;
+    private final CardTypeTarget cardTypeTarget;
     
     private final Array<Card> cards = new Array<>(8);
     private CardHolderLinker linker;
@@ -23,20 +26,38 @@ public class CardStack extends CardHolder {
         custom
     }
     
-    public CardStack(RevealedCards revealedCards, float xOffset, float yOffset) {
+    public CardStack(RevealedCards revealedCards, float xOffset, float yOffset, boolean onlyTop, CardTypeTarget cardTypeTarget) {
         this.revealedCards = revealedCards;
         this.xOffset = xOffset;
         this.yOffset = yOffset;
+        this.onlyTop = onlyTop;
+        this.cardTypeTarget = cardTypeTarget;
+        setWidth(Solitaire.preferences.getCardWidth() + xOffset * cards.size);
+        setHeight(Solitaire.preferences.getCardHeight() + yOffset * cards.size);
+    }
+    public CardStack(RevealedCards visibleCards, float xOffset, float yOffset, boolean onlyTop) {
+        this(visibleCards, xOffset, yOffset, onlyTop, new CardTypeTarget());
+    }
+    public CardStack(RevealedCards visibleCards, float xOffset, float yOffset, CardTypeTarget cardTypeTarget) {
+        this(visibleCards, xOffset, yOffset, false, cardTypeTarget);
+    }
+    public CardStack(RevealedCards visibleCards, float xOffset, float yOffset) {
+        this(visibleCards, xOffset, yOffset, false, new CardTypeTarget());
     }
     public CardStack(RevealedCards visibleCards) {
-        this(visibleCards, 0, 0);
+        this(visibleCards, 0, 0, false, new CardTypeTarget());
     }
     
     public void addCard(Card card) {
         addActor(card);
         card.linkHolder(this);
+        if(onlyTop && getTopCard().isPresent())
+            getTopCard().get().removeListener(linker.getCardDragger());
+        card.addListener(linker.getCardDragger());
         card.setPosition(xOffset * cards.size, yOffset * cards.size);
         cards.add(card);
+        setWidth(Solitaire.preferences.getCardWidth() + xOffset * cards.size);
+        setHeight(Solitaire.preferences.getCardWidth() + yOffset * cards.size);
         switch(revealedCards) {
             case all -> card.setRevealed(true);
             case none -> card.setRevealed(false);
@@ -55,9 +76,13 @@ public class CardStack extends CardHolder {
     public void removeCard(Card card) {
         removeActor(card);
         card.unlinkHolder(this);
-        if(revealedCards == RevealedCards.top && isTopCard(card))
-            if(cards.size > 1)
+        card.removeListener(linker.getCardDragger());
+        if(cards.size > 1) {
+            if(revealedCards == RevealedCards.top && isTopCard(card))
                 cards.get(cards.size - 2).setRevealed(true);
+            if(onlyTop)
+                cards.get(cards.size - 2).addListener(linker.getCardDragger());
+        }
         cards.removeValue(card, true);
     }
     public void removeTopCard() {
@@ -133,6 +158,9 @@ public class CardStack extends CardHolder {
     public float getYOffset() {
         return yOffset;
     }
+    public Array<Card> getCards() {
+        return cards;
+    }
     
     public void setXOffset(float xOffset) {
         this.xOffset = xOffset;
@@ -152,5 +180,10 @@ public class CardStack extends CardHolder {
     }
     public boolean hasLinker() {
         return linker != null;
+    }
+    
+    @Override
+    public CardTypeTarget getCardTypeTarget() {
+        return cardTypeTarget;
     }
 }

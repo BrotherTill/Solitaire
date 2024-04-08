@@ -88,10 +88,20 @@ public class CardOverlay extends Group {
     protected Rectangle getCardBounds() {
         return cards[0].getBounds();
     }
+    public boolean goesOn(CardTypeTarget cardTypeTarget, CardType cardType) {
+        if(cards[0].getCardType().isEmpty())
+            return cardTypeTarget.takes(null);
+        return cards[0].getCardType().get().goesOn(cardTypeTarget, cardType);
+    }
     public boolean goesOn(CardType cardType) {
         if(cards[0].getCardType().isEmpty())
             return true;
         return cards[0].getCardType().get().goesOn(cardType);
+    }
+    public boolean goesOn(CardTypeTarget cardTypeTarget) {
+        if(cards[0].getCardType().isEmpty())
+            return cardTypeTarget.takes(null);
+        return cards[0].getCardType().get().goesOn(cardTypeTarget);
     }
     
     public Card[] getCards() {
