@@ -11,9 +11,10 @@ import java.util.function.BiPredicate;
 
 public class CardStack extends CardHolder {
     private RevealedCards revealedCards;
+    private DraggableCards draggableCards;
+    private boolean draggable = true;
     private float xOffset;
     private float yOffset;
-    private DraggableCards draggableCards;
     private BiPredicate<CardType, CardType> cardAcceptor;
     
     private final Array<Card> cards = new Array<>(8);
@@ -177,6 +178,15 @@ public class CardStack extends CardHolder {
     }
     public void setRevealedCards(RevealedCards revealedCards) {
         this.revealedCards = revealedCards;
+    }
+    
+    @Override
+    public boolean isDraggable() {
+        return draggable;
+    }
+    @Override
+    public void setDraggable(boolean draggable) {
+        this.draggable = draggable;
     }
     
     public float getXOffset() {

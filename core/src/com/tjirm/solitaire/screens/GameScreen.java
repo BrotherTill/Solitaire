@@ -22,13 +22,13 @@ public class GameScreen implements Screen {
     Stage stage;
     CardHolderLinker cardHolders;
     
-    private CardStack[] fannedPiles = new CardStack[7];
-    private CardDeck stock;
-    private CardHolder waste;
-    private CardHolder[] foundations = new CardHolder[4];
+    private final CardStack[] fannedPiles = new CardStack[7];
+    private final CardDeck stock;
+    private final CardHolder waste;
+    private final CardHolder[] foundations = new CardHolder[4];
     
     public GameScreen() {
-        stage = new Stage(new ExtendViewport(800, 600));
+        stage = new Stage(new ExtendViewport(Solitaire.preferences.getScreenWidth(), Solitaire.preferences.getScreenHeight()));
         cardHolders = new CardHolderLinker(stage, true);
         
         for(int i = 0; i < fannedPiles.length; i++) {
@@ -88,6 +88,7 @@ public class GameScreen implements Screen {
     
     @Override
     public void resize(int width, int height) {
+        stage.getViewport().setScreenSize(width, height);
         stage.getViewport().update(width, height);
     }
     

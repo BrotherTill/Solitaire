@@ -18,18 +18,18 @@ public class CardDragger extends DragListener {
     
     @Override
     public void dragStart(InputEvent event, float x, float y, int pointer) {
-        if((event.getTarget() instanceof Card card)) {
-            if(card.isDraggable()) {
-                Gdx.app.log(getClass().getSimpleName(), "dragging");
-                
-                xOffset = x;
-                yOffset = y;
-                holder = card.getCardHolder();
-                if(!linker.beginDrag(card))
-                    cancel();
-                return;
-            }
-        }
+        if((event.getTarget() instanceof Card card))
+            if(card.getCardHolder().isEmpty() || card.getCardHolder().get().isDraggable())
+                if(card.isDraggable()) {
+                    Gdx.app.log(getClass().getSimpleName(), "dragging");
+                    
+                    xOffset = x;
+                    yOffset = y;
+                    holder = card.getCardHolder().get();
+                    if(!linker.beginDrag(card))
+                        cancel();
+                    return;
+                }
         cancel();
     }
     

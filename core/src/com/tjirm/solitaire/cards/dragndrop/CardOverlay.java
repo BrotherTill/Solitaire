@@ -42,6 +42,7 @@ public class CardOverlay extends Group {
             cards[i].setPosition(pos.x, pos.y);
             addActor(cards[i]);
             cards[i].setLagDuration(Preferences.LAG_TO_DURATION + 0.01F * i);
+            cardHolder.setDraggable(false);
             cardHolder.removeCard(cards[i]);
         }
     }
@@ -65,7 +66,10 @@ public class CardOverlay extends Group {
         moveTo(pos.x, pos.y);
         addAction(  Actions.sequence(
                     Actions.delay(Preferences.MOVE_TO_DURATION + 0.05F * (cards.length - 1)),
-                    Actions.run(() -> holder.addCards(cards)))
+                    Actions.run(() -> {
+                        holder.addCards(cards);
+                        cardHolder.setDraggable(true);
+                    }))
         );
     }
     

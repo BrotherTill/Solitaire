@@ -26,7 +26,7 @@ public class CardHolderLinker {
     protected boolean beginDrag(Card origin) {
         if(!dragNDrop)
             return false;
-        cardOverlay = new CardOverlay(origin.getCardHolder(), origin);
+        cardOverlay = new CardOverlay(origin.getCardHolder().get(), origin);
         stage.addActor(cardOverlay);
         return true;
     }

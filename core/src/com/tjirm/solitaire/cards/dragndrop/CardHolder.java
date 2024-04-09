@@ -13,17 +13,26 @@ public abstract class CardHolder extends Group {
     public abstract void addCard(Card card);
     public abstract void addCards(Card[] cards);
     public abstract boolean accepts(CardType cardType);
+    
     public abstract Card getCard(int index);
     public abstract Optional<Card> getTopCard();
     public abstract int getCardIndex(Card card);
+    
     public abstract int getSize();
+    
     public abstract void removeCard(Card card);
     public abstract void removeTopCard();
+    
     protected abstract Rectangle getBounds();
     protected abstract Rectangle getCardBounds();
     public abstract Array<Card> getCards();
+    
     public abstract boolean isRevealOnRemove();
     public abstract void revealTopCard();
+    
+    public abstract void setDraggable(boolean draggable);
+    public abstract boolean isDraggable();
+    
     public abstract float getXOffset();
     public abstract float getYOffset();
     

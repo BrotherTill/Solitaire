@@ -12,6 +12,8 @@ import com.tjirm.solitaire.Solitaire;
 import com.tjirm.solitaire.cards.dragndrop.CardHolder;
 import com.tjirm.solitaire.preferences.Preferences;
 
+import java.util.Optional;
+
 public class Card extends Actor {
     private Drawable front;
     private Drawable back;
@@ -103,8 +105,8 @@ public class Card extends Actor {
         if(holder.getLinker().isPresent())
             addListener(holder.getLinker().get().getCardDragger());
     }
-    public CardHolder getCardHolder() {
-        return holder;
+    public Optional<CardHolder> getCardHolder() {
+        return Optional.ofNullable(holder);
     }
     protected void unlinkHolder(CardHolder cardHolder) {
         if(holder != cardHolder)
