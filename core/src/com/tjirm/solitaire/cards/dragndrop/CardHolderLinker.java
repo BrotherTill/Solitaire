@@ -7,12 +7,14 @@ import com.tjirm.solitaire.cards.Card;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 public class CardHolderLinker {
     private final LinkedList<CardHolder> cardHolders = new LinkedList<>();
     private CardOverlay cardOverlay;
     private final CardDragger cardDragger;
+    private BiConsumer<CardHolder, CardHolder> onCardsMove = (a, b) -> {};
     
     private final boolean dragNDrop;
     private final Stage stage;
@@ -41,11 +43,15 @@ public class CardHolderLinker {
             closest = cardHolder;
         }
         if(closest == null || !closest.getCardBounds().overlaps(cardOverlay.getBounds()))
-            cardOverlay.moveCardsToHolder(originHolder);
+            moveCards(originHolder);
         else if(closest.accepts(cardOverlay.getCardType()))
-            cardOverlay.moveCardsToHolder(closest);
+            moveCards(closest);
         else
-            cardOverlay.moveCardsToHolder(originHolder);
+            moveCards(originHolder);
+    }
+    
+    private void moveCards(CardHolder cardHolder) {
+        cardOverlay.moveCardsToHolder(cardHolder, onCardsMove);
     }
     
     private float getDistance(Rectangle first, Rectangle second) {
@@ -68,6 +74,14 @@ public class CardHolderLinker {
     
     public List<CardHolder> getCardHolders() {
         return cardHolders;
+    }
+    
+    public BiConsumer<CardHolder, CardHolder> getOnCardsMove() {
+        return onCardsMove;
+    }
+    
+    public void setOnCardsMove(BiConsumer<CardHolder, CardHolder> onCardsMove) {
+        this.onCardsMove = onCardsMove;
     }
     
     public CardDragger getCardDragger() {

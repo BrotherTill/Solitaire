@@ -10,6 +10,8 @@ import com.tjirm.solitaire.cards.CardStack;
 import com.tjirm.solitaire.cards.CardType;
 import com.tjirm.solitaire.preferences.Preferences;
 
+import java.util.function.BiConsumer;
+
 public class CardOverlay extends Group {
     private final CardHolder cardHolder;
     private final Card[] cards;
@@ -56,7 +58,7 @@ public class CardOverlay extends Group {
             cards[i].moveTo(x + xOffset * i, y + yOffset * i, Preferences.MOVE_TO_DURATION + 0.05F * i);
     }
     
-    public void moveCardsToHolder(CardHolder holder) {
+    public void moveCardsToHolder(CardHolder holder, BiConsumer<CardHolder, CardHolder> onCardsMove) {
         clearActions();
         if(cardHolder != holder && cardHolder.isRevealOnRemove())
             cardHolder.revealTopCard();
@@ -69,6 +71,8 @@ public class CardOverlay extends Group {
                     Actions.run(() -> {
                         holder.addCards(cards);
                         cardHolder.setDraggable(true);
+                        if(cardHolder != holder)
+                            onCardsMove.accept(cardHolder, holder);
                     }))
         );
     }
