@@ -73,8 +73,8 @@ public class CardDeck extends CardStack {
                 Vector2 pos = target.stageToLocalCoordinates(localToStageCoordinates(new Vector2()));
                 target.getCard(target.getSize() - i - 1).removeListener(getLinker().get().getCardDragger());
                 target.getCard(target.getSize() - i - 1).addAction(
-                        Actions.sequence(   Actions.delay(Preferences.FAST_MOVE_TO_DURATION * i),
-                                            Actions.moveTo(pos.x + getXOffset() * i, pos.y + getYOffset() * i, Preferences.FAST_MOVE_TO_DURATION),
+                        Actions.sequence(   Actions.delay((Preferences.FAST_MOVE_TO_DURATION / 3)  * i),
+                                            Actions.moveTo(pos.x + getXOffset() * i, pos.y + getYOffset() * i, (Preferences.FAST_MOVE_TO_DURATION / 3)),
                                             Actions.run(() -> {
                                                 Card card = target.getTopCard().get();
                                                 target.removeTopCard();
@@ -83,10 +83,8 @@ public class CardDeck extends CardStack {
                 ));
             }
             Vector2 targetPos = stageToLocalCoordinates(target.localToStageCoordinates(new Vector2()));
-            addAction(Actions.sequence( Actions.delay(Preferences.FAST_MOVE_TO_DURATION * (target.getSize() + 0.5F)),
-                                        Actions.run(() -> {
-                                            getTopCard().get().moveTo(targetPos.x, targetPos.y, Preferences.FAST_MOVE_TO_DURATION);
-                                        }),
+            addAction(Actions.sequence( Actions.delay((Preferences.FAST_MOVE_TO_DURATION / 3) * (target.getSize() + 0.5F)),
+                                        Actions.run(() -> getTopCard().get().moveTo(targetPos.x, targetPos.y, Preferences.FAST_MOVE_TO_DURATION)),
                                         Actions.delay(Preferences.FAST_MOVE_TO_DURATION),
                                         Actions.run(() -> {
                                             Card card = getTopCard().get();
