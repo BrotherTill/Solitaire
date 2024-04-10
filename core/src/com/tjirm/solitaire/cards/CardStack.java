@@ -113,8 +113,12 @@ public class CardStack extends CardHolder {
         }
         cards.removeValue(card, true);
     }
-    public void removeTopCard() {
-        removeCard(cards.get(cards.size - 1));
+    public Card removeTopCard() {
+        if(getTopCard().isEmpty())
+            return null;
+        Card card = getTopCard().get();
+        removeCard(card);
+        return card;
     }
     
     public void clearCards() {

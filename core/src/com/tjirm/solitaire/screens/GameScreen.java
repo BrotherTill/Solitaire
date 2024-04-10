@@ -4,18 +4,16 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.tjirm.solitaire.Solitaire;
-import com.tjirm.solitaire.cards.Card;
 import com.tjirm.solitaire.cards.CardDeck;
 import com.tjirm.solitaire.cards.CardStack;
 import com.tjirm.solitaire.cards.CardStack.DraggableCards;
 import com.tjirm.solitaire.cards.CardStack.RevealedCards;
-import com.tjirm.solitaire.cards.CardType;
 import com.tjirm.solitaire.cards.dragndrop.CardHolder;
 import com.tjirm.solitaire.cards.dragndrop.CardHolderLinker;
+import com.tjirm.solitaire.logic.SolitaireGameGenerator;
 import com.tjirm.solitaire.logic.SolitaireWinDetector;
 
 public class GameScreen implements Screen {
@@ -23,18 +21,19 @@ public class GameScreen implements Screen {
     CardHolderLinker cardHolders;
     
     private final CardStack[] fannedPiles = new CardStack[7];
-    private final CardDeck stock;
-    private final CardStack waste;
     private final CardStack[] foundations = new CardStack[4];
+    private final CardStack waste;
+    private final CardDeck stock;
     
     private final SolitaireWinDetector winDetector;
+    private final SolitaireGameGenerator gameGenerator;
     
     public GameScreen() {
         stage = new Stage(new ExtendViewport(Solitaire.preferences.getScreenWidth(), Solitaire.preferences.getScreenHeight()));
         cardHolders = new CardHolderLinker(stage, true);
         
         for(int i = 0; i < fannedPiles.length; i++) {
-            stage.addActor(cardHolders.linkCardHolder(fannedPiles[i] = new CardStack(RevealedCards.custom, 0, -30, DraggableCards.revealed, (a,b) -> true)));
+            stage.addActor(cardHolders.linkCardHolder(fannedPiles[i] = new CardStack(RevealedCards.custom, 0, -30, DraggableCards.revealed, CardHolder.DEFAULT_SOLITAIRE)));
             fannedPiles[i].setPosition(20 + (Solitaire.preferences.getCardWidth() + 20) * i, stage.getHeight() - 40 - Solitaire.preferences.getCardHeight() * 2);
         }
         for(int i = 0; i < foundations.length; i++) {
@@ -50,33 +49,9 @@ public class GameScreen implements Screen {
         
         winDetector = new SolitaireWinDetector(fannedPiles, foundations, waste, stock);
         winDetector.setOnGameWon(this::gameWon);
+        gameGenerator = new SolitaireGameGenerator(fannedPiles, foundations, waste, stock);
         
-        reset();
-    }
-    
-    public void reset() {
-        stock.clearCards();
-        waste.clearCards();
-        for(CardStack fannedPile : fannedPiles) fannedPile.clearCards();
-        for(CardStack foundation : foundations) foundation.clearCards();
-        
-        Array<Card> cards = new Array<>(52);
-        for(int i = 0; i < CardType.Suit.values().length - 1; i++)
-            for(int j = 0; j < CardType.CardFace.values().length - 1; j++)
-                cards.add(new Card(new CardType(CardType.Suit.values()[i], CardType.CardFace.values()[j])));
-        cards.shuffle();
-        
-        for(CardStack cardStack : fannedPiles)
-            cardStack.setRevealedCards(RevealedCards.top);
-        
-        for(int i = 0; i < fannedPiles.length; i++)
-            for(int j = 0; j <= i; j++)
-                fannedPiles[i].addCard(cards.pop());
-        
-        for(CardStack cardStack : fannedPiles)
-            cardStack.setRevealedCards(RevealedCards.onRemove);
-        
-        stock.addCards(cards.toArray(Card.class));
+        gameGenerator.reset();
     }
     
     private void gameWon() {

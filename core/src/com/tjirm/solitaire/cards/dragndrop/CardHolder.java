@@ -21,7 +21,7 @@ public abstract class CardHolder extends Group {
     public abstract int getSize();
     
     public abstract void removeCard(Card card);
-    public abstract void removeTopCard();
+    public abstract Card removeTopCard();
     
     protected abstract Rectangle getBounds();
     protected abstract Rectangle getCardBounds();
