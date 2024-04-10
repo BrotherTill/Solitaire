@@ -1,0 +1,48 @@
+
+UI.png
+size: 512, 512
+format: RGBA8888
+filter: Linear, Linear
+repeat: none
+Button_down
+  rotate: false
+  xy: 1, 102
+  size: 120, 40
+  orig: 120, 40
+  offset: 0, 0
+  index: -1
+Button_over
+  rotate: false
+  xy: 253, 274
+  size: 120, 40
+  orig: 120, 40
+  offset: 0, 0
+  index: -1
+Button_up
+  rotate: false
+  xy: 1, 60
+  size: 120, 40
+  orig: 120, 40
+  offset: 0, 0
+  index: -1
+GameOver_Popup
+  rotate: false
+  xy: 1, 144
+  size: 250, 170
+  orig: 250, 170
+  offset: 0, 0
+  index: -1
+default
+  rotate: false
+  xy: 1, 411
+  size: 505, 93
+  orig: 505, 93
+  offset: 0, 0
+  index: -1
+normal
+  rotate: false
+  xy: 1, 316
+  size: 505, 93
+  orig: 505, 93
+  offset: 0, 0
+  index: -1
