@@ -85,8 +85,8 @@ public class CardOverlay extends Group {
     protected Rectangle getBounds() {
         float x = cards[cards.length - 1].getX();
         float y = cards[cards.length - 1].getY();
-        float width = Solitaire.preferences.getCardWidth() + xOffset * (cards.length - 1);
-        float height = Solitaire.preferences.getCardHeight() + yOffset * (cards.length - 1);
+        float width = Solitaire.preferences.getCardWidth() + Math.abs(xOffset) * (cards.length - 1);
+        float height = Solitaire.preferences.getCardHeight() + Math.abs(yOffset) * (cards.length - 1);
         
         if(xOffset < 0)
             x -= xOffset * (cards.length - 1);
