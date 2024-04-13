@@ -49,7 +49,7 @@ public class GameScreen implements Screen {
         cardHolders = new CardHolderLinker(stage, true);
         
         for(int i = 0; i < fannedPiles.length; i++) {
-            stage.addActor(cardHolders.linkCardHolder(fannedPiles[i] = new CardStack(RevealedCards.custom, 0, -30, DraggableCards.revealed, (a,b) -> true)));
+            stage.addActor(cardHolders.linkCardHolder(fannedPiles[i] = new CardStack(RevealedCards.custom, 0, -30, DraggableCards.revealed, CardHolder.DEFAULT_SOLITAIRE)));
             fannedPiles[i].setPosition(20 + (Solitaire.preferences.getCardWidth() + 20) * i, stage.getHeight() - 40 - Solitaire.preferences.getCardHeight() * 2);
         }
         for(int i = 0; i < foundations.length; i++) {
@@ -102,6 +102,8 @@ public class GameScreen implements Screen {
                 moveToAction.setDuration(Preferences.MOVE_TO_DURATION);
                 gameOverPopup.addAction(moveToAction);
                 restart.addAction(Actions.moveTo(20, 20, Preferences.MOVE_TO_DURATION));
+                for(CardStack foundation : foundations)
+                    foundation.setDraggable(true);
                 gameGenerator.reset();
             }
         });
